@@ -20,4 +20,22 @@ model User {
   name String
   avatarUrl String?
   createdAt DateTime @default(now())
+  expenses Expense[]
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String @unique
+  expenses Expense[]
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  description String
+  amount      Decimal
+  categoryId  String @default(uuid())
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  date        DateTime @default(now())
+  userId      String @default(uuid())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
